@@ -13,7 +13,7 @@ it('transforms employee', () => {
             reports: [1,2,3]
         }
     };
-    const actualResult = transformEmployee(employee)(employee.reports);
+    const actualResult = transformEmployee(employee);
 
     expect(actualResult).toEqual(expectedResult);
 });

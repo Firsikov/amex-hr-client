@@ -1,2 +1,2 @@
 
-export const transformEmployee = ({ name, id }) => reports => ({ [name]: { id, reports } });
+export const transformEmployee = ({ id, name, reports }) => ({ [name]: { id, reports } });

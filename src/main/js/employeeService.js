@@ -6,12 +6,14 @@ export const getEmployeeById = id => new Promise(
     async resolve => {
         const employee = await fetchEmployeeById(id);
 
-        const reports = _.map(employee.reports, getEmployeeById);
+        const reports = await getReports(employee);
 
-        Promise.all(reports)
-            .then(transformEmployee(employee))
-            .then(resolve);
+        const enrichedEmployee = transformEmployee({ ...employee, reports });
+
+        resolve(enrichedEmployee);
     });
+
+const getReports = employee => Promise.all(_.map(employee.reports, getEmployeeById));
 
 const fetchEmployeeById = id => get(`/employee/${id}`)
     .then(parseResponse(id))
