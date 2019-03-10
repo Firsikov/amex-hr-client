@@ -5,11 +5,11 @@ import { getEmployeeById } from "./employeeService";
 export default class App extends Component {
 
     state = {
-        data: '',
+        data: ''
     };
 
     componentDidMount() {
-        this.initialize()
+        this.initialize();
     }
 
     initialize = async () => {
