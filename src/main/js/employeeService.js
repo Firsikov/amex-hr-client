@@ -2,26 +2,22 @@ import _ from 'lodash';
 import { get } from "./fetcher";
 import { transformEmployee } from "./dataTransformer";
 
-export const getEmployeeById = id =>
-    new Promise(async resolve => {
+export const getEmployeeById = id => new Promise(
+    async resolve => {
         const employee = await fetchEmployeeById(id);
 
-        if (!employee) return;
-
-        const reports = _.map(employee.reports, fetchReports);
+        const reports = _.map(employee.reports, getEmployeeById);
 
         Promise.all(reports)
             .then(transformEmployee(employee))
             .then(resolve);
     });
 
-const fetchReports = async reportId => await getEmployeeById(reportId);
-
 const fetchEmployeeById = id => get(`/employee/${id}`)
-    .then(parseJson(id))
+    .then(parseResponse(id))
     .catch(console.error);
 
-const parseJson = employeeId => response => {
+const parseResponse = employeeId => response => {
     if(_.isEmpty(response))
         return Promise.reject(`Employee with id ${employeeId} not found`);
 
